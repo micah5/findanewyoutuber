@@ -8,7 +8,7 @@ pages:
     - npm install
     - npm run build
     - mkdir public
-    - mv dist/* public
+    - cp -R dist/* public/
   artifacts:
     paths:
       - public

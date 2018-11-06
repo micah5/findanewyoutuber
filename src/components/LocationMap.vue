@@ -280,6 +280,7 @@ export default {
             i += 4
           }
         }
+        this.$emit('change-locations', this.found_countries)
         context.clearRect(0, 0, canvas.width, canvas.height);
       }
     }

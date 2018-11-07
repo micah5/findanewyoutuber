@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative;" class="pt-5">
-    <h3 class="black--text" v-bind:id="'match-text-' + _uid">{{Math.round(data.avg * 100)}}<small>%</small> match</h3>
+    <h3 class="black--text" v-bind:id="'match-text-' + _uid">{{Math.round(percentage * 100)}}<small>%</small> match</h3>
     <v-card
       class="mx-auto hide-overflow"
       style="max-width: 1000px;"
@@ -13,8 +13,8 @@
       </div>
       <v-slide-y-transition>
         <div v-if="video_clicked">
-          <h3 class="mb-0">↪ rate this channel</h3>
-          <p class="black--text mb-0">please be objective, as your score will directly impact the search rankings</p>
+          <h3 class="mb-0">rate this channel</h3>
+          <p class="black--text mb-0">your score will directly impact the search rankings</p>
           <v-layout row justify-center class="mt-5" style="width: 80%; margin-left: 10%;">
             <p class="mr-3 black--text">overall<br>score</p>
             <v-slider
@@ -43,7 +43,7 @@
               ></v-rating>
             </v-layout>
           </v-layout>
-          <v-btn color="#77F8EA" class="mt-3 mb-0">add rating</v-btn>
+          <v-btn color="#77F8EA" class="mt-3 mb-0" @click="submit">add rating</v-btn>
           <v-divider></v-divider>
         </div>
       </v-slide-y-transition>
@@ -53,11 +53,11 @@
           <v-btn dark color="orange" small class="mt-0 mb-3" style="border-width: 0px; height: 25px;" @click="openReddit()">
             <i class="fab fa-reddit-alien"></i> &nbsp; u/{{data.reddit_username}}
           </v-btn></span>
-          <div class="black--text font-weight-light" v-for="person in data.demographics">
+          <div class="black--text font-weight-light">
             <v-icon color="black" left small>accessibility_new</v-icon>
-            est age: <span class="grey--text">{{person.age}}</span>,
+            est age: <span class="grey--text">{{data.demographics.age}}</span>,
             <v-icon color="black" left small>face</v-icon>
-            est gender: <span class="blue--text">{{({ 'M': 'male', 'F': 'female', } )[ person.gender ] || 'unknown'}}</span>
+            est gender: <span class="blue--text">{{({ 'M': 'male', 'F': 'female', } )[ data.demographics.gender ] || 'unknown'}}</span>
           </div>
           <div class="black--text font-weight-light">
             est <v-icon color="black" left small>fas fa-heart</v-icon> relationship: <span class="grey--text">{{data.relationship_perc > 0.75 ? 'couple' : 'single'}}</span>
@@ -77,14 +77,14 @@
         </div>
         <v-spacer></v-spacer>
         <v-layout column text-xs-right>
-          <h1><small>user score&nbsp;</small>86<small>%</small></h1>
+          <h1><small>user score&nbsp;</small>{{data.avg_user_rating.overall}}<small>%</small></h1>
           <div style="display: flex;">
             <span class="black--text text--lighten-2 caption mt-1" style="flex: 0 0 70%;">
               videography
             </span>
             <v-rating
               style="flex: 1;"
-              v-model="rating"
+              v-model="data.avg_user_rating.videography"
               background-color="grey"
               color="yellow accent-4"
               dense
@@ -100,7 +100,7 @@
             </span>
             <v-rating
               style="flex: 1;"
-              v-model="rating"
+              v-model="data.avg_user_rating.personality"
               background-color="grey"
               color="yellow accent-4"
               dense
@@ -116,7 +116,7 @@
             </span>
             <v-rating
               style="flex: 1;"
-              v-model="rating"
+              v-model="data.avg_user_rating.storytelling"
               background-color="grey"
               color="yellow accent-4"
               dense
@@ -133,13 +133,13 @@
         {{description}}<span @click="show_all_description = !show_all_description">&nbsp;<u>{{show_all_description ? 'less' : 'more'}}</u></span></div>
       <v-divider></v-divider>
       <v-layout row class="mb-3">
-        <v-flex xs12 md6>
-          <v-layout column v-if="data.found_phrases.length > 0">
+        <v-flex xs12 md6 v-if="data.found_phrases && data.found_phrases.length > 0">
+          <v-layout column>
             <h3 class="mb-0">usually starts their videos with</h3>
             <p v-for="phrase in data.found_phrases" class="black--text mb-0">"{{phrase}}..."</p>
           </v-layout>
         </v-flex>
-        <v-flex xs12 md6 pr-3>
+        <v-flex xs12 md6 pr-3 pl-3>
           <v-layout column>
             <h3 class="mb-0">video type/style</h3>
             <p class="grey--text mb-0">
@@ -159,9 +159,10 @@
         <v-flex xs12 md6>
           <kindness-meter :value="data.avg_sentiment_pred"></kindness-meter>
         </v-flex>
-        <v-flex xs12 md6 pr-3>
+        <v-flex xs12 md6 pr-3 style="max-width: 50%;">
           <p class="mb-0 black--text">most positive videos ☀️</p>
           <v-btn
+            style="max-width: 95%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
             color="#FAE16B"
             v-for="video in mostPositiveVideos.slice(0, 3)"
             @click="data.video_id = video.video_id"
@@ -170,16 +171,17 @@
           </v-btn>
           <p class="mt-3 mb-0 black--text">most critical videos ⛈</p>
           <v-btn
+            style="max-width: 95%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
             color="#B4DAEF"
-            v-for="video in mostPositiveVideos.reverse().slice(0, 3)"
+            v-for="video in mostPositiveVideos.slice().reverse().slice(0, 3)"
             @click="data.video_id = video.video_id"
             v-scroll-to="'#match-text-' + _uid">
             {{video.title}} ~ {{Math.round(100 - (video.pred[0] * 100))}}<small>% negative</small>
           </v-btn>
         </v-flex>
       </v-layout>
-      <v-layout column v-if="data.most_occur.length > 0">
-        <most-common-words :words="data.most_occur"></most-common-words>
+      <v-layout column v-if="most_occur.length > 0">
+        <most-common-words :words="most_occur"></most-common-words>
       </v-layout>
     </v-card>
     <v-img class="hover-img" :src="'https://findanewvlogger.herokuapp.com/data/' + data.thumbnail">
@@ -194,7 +196,7 @@ import _ from 'lodash'
 import $ from 'jquery'
 export default {
     name: 'youtuber',
-    props: ['data'],
+    props: ['data', 'percentage'],
     components: {
       KindnessMeter,
       MostCommonWords
@@ -243,6 +245,34 @@ export default {
       }*/
     },
     methods: {
+      submit: function() {
+        var data = {
+        	"id": this.data.id,
+        	"overall": (this.overall_user_rating / 100),
+        	"videography": (this.user_rating[0].score / 5),
+        	"storytelling": (this.user_rating[1].score / 5),
+        	"personality": (this.user_rating[2].score / 5)
+        }
+        console.log(JSON.stringify(data))
+        var settings = {
+          "async": true,
+          "crossDomain": true,
+          "url": "https://findanewvlogger.herokuapp.com/update_score",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "cache-control": "no-cache",
+            "Postman-Token": "c0b967ef-9bee-42cd-aa75-a3d37174583b"
+          },
+          "processData": false,
+          "data": JSON.stringify(data)
+        }
+
+        var vm = this
+        $.ajax(settings).done(function (response) {
+          vm.data.avg_user_rating = response;
+        });
+      },
       openReddit: function() {
         window.open('http://www.reddit.com/u/' + this.data.reddit_username)
       },
@@ -282,6 +312,33 @@ export default {
       },
       cute_gender_name: function() {
         return (this.data.demographics.length > 0 ? (({ 'M': 'guy', 'F': 'girl', } )[ this.data.demographics[0].gender ] || 'guy') : 'guy')
+      },
+      most_occur: function() {
+        const x = this.data.title_corpus.replace(/[^A-Za-z0-9 ]/g, '').split(" ");
+        const k = {};
+           x.forEach(v => {
+             if(k[v]) {
+                k[v] +=1;
+             } else {
+                k[v] = 1;
+             }
+           });
+        const y = Object.keys(k).map(key => ({'name': key, 'frequency': k[key]}));
+        var filtered = y.filter(function( obj ) {
+            return obj.frequency !== 1;
+        });
+        function compare(a, b) {
+            a = a['frequency'];
+            b = b['frequency'];
+            var type = (typeof(a) === 'string' ||
+                        typeof(b) === 'string') ? 'string' : 'number';
+            var result;
+            if (type === 'string') result = a.localeCompare(b);
+            else result = a - b;
+            return result;
+        }
+        var sorted = filtered.sort(compare);
+        return sorted.slice().reverse()
       },
       ratingDescription: function() {
         if (this.overall_user_rating < 10) {

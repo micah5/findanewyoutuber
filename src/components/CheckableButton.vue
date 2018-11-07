@@ -12,7 +12,7 @@
 <script>
 export default {
     name: 'checkable-button',
-    props: ['type', 'tooltip', 'value'],
+    props: [ 'type', 'tooltip', 'value', 'arr', 'update' ],
     data () {
       return {
         checked: false
@@ -20,11 +20,15 @@ export default {
     },
     methods: {
       check: function() {
-        this.checked = !this.checked
-        if (this.checked == true) {
-          this.$emit('add-gender', this.value);
+        if (this.arr) {
+          this.checked = !this.checked
+          if (this.checked == true) {
+            this.$emit('add', this.arr, this.value);
+          } else {
+            this.$emit('remove', this.arr, this.value);
+          }
         } else {
-          this.$emit('remove-gender', this.value);
+          this.update(this.value);
         }
       }
     }

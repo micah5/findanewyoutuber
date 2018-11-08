@@ -539,7 +539,7 @@ export default {
       var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "http://localhost:5000/search",
+        "url": "https://findanewvlogger.herokuapp.com/search",
         "method": "POST",
         "headers": {
           "Content-Type": "application/json",

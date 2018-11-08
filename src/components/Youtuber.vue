@@ -265,7 +265,7 @@ export default {
         var settings = {
           "async": true,
           "crossDomain": true,
-          "url": "http://localhost:5000/update_score",
+          "url": "https://findanewvlogger.herokuapp.com/update_score",
           "method": "POST",
           "headers": {
             "Content-Type": "application/json",

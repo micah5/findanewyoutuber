@@ -10,9 +10,9 @@
         <header>
             <v-container>
                 <h1><span class="boxy">find a new vlogger</span></h1>
-                <h3><span class="boxy">personality based youtuber search <small>~ powered by reddit, ai & ❤</small></span></h3>
+                <h3><span class="boxy" style="font-size: 0.8em;">personality based youtuber search <small>~ powered by reddit, ai & ❤</small></span></h3>
                 <h3 class="mt-5 white--text">what does your perfect youtuber look like?</h3>
-                <v-layout row class="mt-5">
+                <v-layout row wrap class="mt-5">
                   <v-flex
                     xs12 sm3 offset-sm2
                   >
@@ -20,7 +20,7 @@
                       <span class="boxy">age range ↪</span>
                     </h3>
                   </v-flex>
-                  <v-flex class="px-3" xs12 sm4>
+                  <v-flex xs12 sm4 :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'ma-0': $vuetify.breakpoint.smAndUp}">
                     <v-range-slider
                       dark
                       v-model="range"
@@ -36,8 +36,15 @@
                     ></v-range-slider>
                   </v-flex>
                 </v-layout>
-                <v-layout row class="mt-3">
-                  <v-flex class="px-3">
+                <v-layout column class="mt-3">
+                  <v-flex v-if="$vuetify.breakpoint.xs" class="mt-3"
+                    xs12 sm3 offset-md2
+                  >
+                    <h3>
+                      <span class="boxy">gender/s ⤵</span>
+                    </h3>
+                  </v-flex>
+                  <v-flex>
                     <checkable-button
                       type="man"
                       tooltip="male"
@@ -62,7 +69,7 @@
                       @add="add"
                       @remove="remove">
                     </checkable-button>
-                    <span style="display: inline-flex;"><h3 class="ml-5">
+                    <span v-if="$vuetify.breakpoint.smAndUp" style="display: inline-flex;"><h3 class="ml-5">
                       <span class="boxy">↩ gender/s</span>
                     </h3></span>
                   </v-flex>
@@ -78,9 +85,16 @@
                   @change-locations="setLocations">
                   </location-map>
                 </v-layout>
-                <v-layout row class="mt-5">
+                <v-layout column class="mt-5">
+                  <v-flex v-if="$vuetify.breakpoint.xs" class="mt-2"
+                    xs12 sm3 offset-md2
+                  >
+                    <h3>
+                      <span class="boxy">relationship status ⤵</span>
+                    </h3>
+                  </v-flex>
                   <v-flex class="px-3">
-                    <span style="display: inline-flex;"><h3 class="ml-3">
+                    <span v-if="$vuetify.breakpoint.smAndUp" style="display: inline-flex;"><h3 class="ml-3">
                       <span class="boxy">relationship status ↪</span>
                     </h3></span>
                     <checkable-button
@@ -91,14 +105,14 @@
                       ref="component1">
                     </checkable-button>
                     <checkable-button
-                      type="man"
+                      type="single"
                       tooltip="preferably single"
                       :value="false"
                       :update="updateRelationship"
                       ref="component2">
                     </checkable-button>
                     <checkable-button
-                      type="woman"
+                      type="couple"
                       tooltip="couple"
                       :value="true"
                       :update="updateRelationship"
@@ -106,7 +120,14 @@
                     </checkable-button>
                   </v-flex>
                 </v-layout>
-                <v-layout row class="mt-5">
+                <v-layout column class="mt-5">
+                  <v-flex v-if="$vuetify.breakpoint.xs" class="mt-0"
+                    xs12 sm3 offset-md2
+                  >
+                    <h3>
+                      <span class="boxy">should they have kids? ⤵</span>
+                    </h3>
+                  </v-flex>
                   <v-flex class="px-3">
                     <checkable-button
                       type="unknown"
@@ -116,25 +137,25 @@
                       ref="component5">
                     </checkable-button>
                     <checkable-button
-                      type="man"
+                      type="no_baby"
                       tooltip="preferably not"
                       :value="false"
                       :update="updateKids"
                       ref="component6">
                     </checkable-button>
                     <checkable-button
-                      type="woman"
+                      type="baby"
                       tooltip="preferably yes"
                       :value="true"
                       :update="updateKids"
                       ref="component7">
                     </checkable-button>
-                    <span style="display: inline-flex;"><h3 class="ml-3">
+                    <span v-if="$vuetify.breakpoint.smAndUp" style="display: inline-flex;"><h3 class="ml-3">
                       <span class="boxy">↩ should they have kids?</span>
                     </h3></span>
                   </v-flex>
                 </v-layout>
-                <v-layout row class="mt-5">
+                <v-layout row wrap class="mt-5">
                   <v-flex offset-sm1
                     xs12 sm4
                   >
@@ -161,11 +182,18 @@
                   </v-flex>
                 </v-layout>
                 <v-layout column>
+                  <v-flex v-if="$vuetify.breakpoint.xs" class="mt-5"
+                    xs12 sm3 offset-md2
+                  >
+                    <h3>
+                      <span class="boxy">preffered video style ⤵</span>
+                    </h3>
+                  </v-flex>
                   <v-flex class="px-3">
                     <v-btn @click="prefer_vlog = false">topical</v-btn>
                     <v-btn @click="prefer_vlog = true">daily life/ vlog style</v-btn>
                     <v-btn @click="prefer_vlog = null">anything goes</v-btn>
-                    <span style="display: inline-flex;"><h3 class="ml-3">
+                    <span v-if="$vuetify.breakpoint.smAndUp" style="display: inline-flex;"><h3 class="ml-3">
                       <span class="boxy">↩ preffered video style</span>
                     </h3></span>
                   </v-flex>
@@ -181,7 +209,7 @@
                     </span>
                   </div>
                 </v-layout>
-                <v-layout row class="mt-5">
+                <v-layout row wrap class="mt-5">
                   <v-flex
                     xs12 sm5
                   >
@@ -189,7 +217,7 @@
                       <span class="boxy">ideal average video length ↪</span>
                     </h3>
                   </v-flex>
-                  <v-flex class="px-3" xs12 sm7>
+                  <v-flex :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'ma-0': $vuetify.breakpoint.smAndUp}" xs12 sm7>
                     <v-slider
                       light
                       v-model="average_length"
@@ -335,8 +363,10 @@
           </v-slide-y-transition>
           <v-fade-transition>
             <div v-show="!hide_batch">
-              <youtuber v-for="data in currentBatch" :data="data.root" :percentage="data.percentage">
-              </youtuber>
+              <div v-if="!hide_batch" v-for="data in currentBatch">
+                <youtuber :data="data.root" :percentage="data.percentage">
+                </youtuber>
+              </div>
             </div>
           </v-fade-transition>
           <v-layout row justify-center mt-5 v-if="search_response.length > 0">
@@ -496,9 +526,9 @@ export default {
     search: function() {
       var data = {
       	"age_range": this.range,
-      	"genders": this.genders,
+      	"gender": this.genders,
       	"duration": this.average_length,
-      	"sentiment_range": this.sentiment_range,
+      	"sentiment_range": [this.sentiment_range[0]/100, this.sentiment_range[1]/100],
       	"prefer_vlog": this.prefer_vlog,
       	"prefer_kids": this.prefer_kids,
       	"prefer_relationship": this.prefer_relationship,
@@ -509,7 +539,7 @@ export default {
       var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "https://findanewvlogger.herokuapp.com/search",
+        "url": "http://localhost:5000/search",
         "method": "POST",
         "headers": {
           "Content-Type": "application/json",
@@ -589,6 +619,11 @@ export default {
 @media only screen and (max-device-width : 640px) {
   h3 {
     font-size: 4vw !important;
+  }
+  .bg-img {
+    height: 80vh;
+    width: auto;
+    object-fit: cover;
   }
 }
 

@@ -54,4 +54,20 @@ export default {
   background: url('../assets/icons/unknown.png');
   background-size: 100%;
 }
+.single {
+  background: url('../assets/icons/single.png');
+  background-size: 100%;
+}
+.couple {
+  background: url('../assets/icons/couple.png');
+  background-size: 100%;
+}
+.baby {
+  background: url('../assets/icons/baby.png');
+  background-size: 100%;
+}
+.no_baby {
+  background: url('../assets/icons/no_baby.png');
+  background-size: 100%;
+}
 </style>

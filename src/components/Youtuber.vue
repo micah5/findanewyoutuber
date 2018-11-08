@@ -53,7 +53,15 @@
           <v-btn dark color="orange" small class="mt-0 mb-3" style="border-width: 0px; height: 25px;" @click="openReddit()">
             <i class="fab fa-reddit-alien"></i> &nbsp; u/{{data.reddit_username}}
           </v-btn></span>
-          <div class="black--text font-weight-light">
+          <div v-if="Array.isArray(data.demographics) == true">
+            <div class="black--text font-weight-light" v-for="demographic in data.demographics">
+              <v-icon color="black" left small>accessibility_new</v-icon>
+              est age: <span class="grey--text">{{demographic.age}}</span>,
+              <v-icon color="black" left small>face</v-icon>
+              est gender: <span class="blue--text">{{({ 'M': 'male', 'F': 'female', } )[ demographic.gender ] || 'unknown'}}</span>
+            </div>
+          </div>
+          <div v-else class="black--text font-weight-light">
             <v-icon color="black" left small>accessibility_new</v-icon>
             est age: <span class="grey--text">{{data.demographics.age}}</span>,
             <v-icon color="black" left small>face</v-icon>
@@ -76,8 +84,8 @@
           </div>
         </div>
         <v-spacer></v-spacer>
-        <v-layout column text-xs-right>
-          <h1><small>user score&nbsp;</small>{{data.avg_user_rating.overall}}<small>%</small></h1>
+        <v-layout column text-xs-right v-if="data.avg_user_rating">
+          <h1><small>user score&nbsp;</small>{{Math.round(data.avg_user_rating.overall)}}<small>%</small></h1>
           <div style="display: flex;">
             <span class="black--text text--lighten-2 caption mt-1" style="flex: 0 0 70%;">
               videography
@@ -132,7 +140,7 @@
       <div class="grey--text font-weight-light ml-3 mr-3 mb-2" style="text-align: left;">
         {{description}}<span @click="show_all_description = !show_all_description">&nbsp;<u>{{show_all_description ? 'less' : 'more'}}</u></span></div>
       <v-divider></v-divider>
-      <v-layout row class="mb-3">
+      <v-layout row wrap class="mb-3">
         <v-flex xs12 md6 v-if="data.found_phrases && data.found_phrases.length > 0">
           <v-layout column>
             <h3 class="mb-0">usually starts their videos with</h3>
@@ -155,11 +163,11 @@
           </v-layout>
         </v-flex>
       </v-layout>
-      <v-layout row class="mb-3">
+      <v-layout row wrap class="mb-3">
         <v-flex xs12 md6>
           <kindness-meter :value="data.avg_sentiment_pred"></kindness-meter>
         </v-flex>
-        <v-flex xs12 md6 pr-3 style="max-width: 50%;">
+        <v-flex xs12 md6 pr-3 :style="{'max-width: 100%;': $vuetify.breakpoint.smAndDown, 'max-width: 50%;': $vuetify.breakpoint.smAndUp}">
           <p class="mb-0 black--text">most positive videos ☀️</p>
           <v-btn
             style="max-width: 95%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
@@ -257,7 +265,7 @@ export default {
         var settings = {
           "async": true,
           "crossDomain": true,
-          "url": "https://findanewvlogger.herokuapp.com/update_score",
+          "url": "http://localhost:5000/update_score",
           "method": "POST",
           "headers": {
             "Content-Type": "application/json",
@@ -269,8 +277,15 @@ export default {
         }
 
         var vm = this
+        vm.video_clicked = false
         $.ajax(settings).done(function (response) {
-          vm.data.avg_user_rating = response;
+          if (response.success == false) {
+            console.log('already done')
+          } else {
+            vm.data.avg_user_rating = response;
+            console.log('here ', JSON.stringify(vm.data.avg_user_rating))
+            vm.$forceUpdate()
+          }
         });
       },
       openReddit: function() {
@@ -391,7 +406,7 @@ export default {
   border-width: 4px;
   box-shadow: -10px -10px black;
 }
-@media only screen and (max-width: 968px) {
+@media only screen and (max-width: 1250px) {
   .hover-img {
     margin-left: 0px;
   }

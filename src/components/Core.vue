@@ -482,9 +482,10 @@ export default {
       }
     },
     addTag: function() {
-      var index = this.tags.indexOf(this.input_tag);
+      var tag = this.input_tag.toLowerCase()
+      var index = this.tags.indexOf(tag);
       if (index == -1) {
-        this.tags.push(this.input_tag)
+        this.tags.push(tag)
       }
       this.input_tag = null
     },

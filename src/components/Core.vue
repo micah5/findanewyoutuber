@@ -233,7 +233,7 @@
                 </v-layout>
                 <v-layout column class="mt-5">
                   <h3 class="ml-3">
-                    <span class="boxy">how important is video editing/ Cinematography to you? ⤵</span>
+                    <span class="boxy">how important is <span v-if="$vuetify.breakpoint.smAndUp">video editing/ </span>cinematography to you? ⤵</span>
                   </h3>
                   <v-rating
                     v-model="rating"
@@ -530,7 +530,6 @@ export default {
       	"gender": this.genders,
       	"duration": this.average_length,
       	"sentiment_range": [this.sentiment_range[0]/100, this.sentiment_range[1]/100],
-      	"prefer_vlog": this.prefer_vlog,
       	"prefer_kids": this.prefer_kids,
       	"prefer_relationship": this.prefer_relationship,
       	"videography": this.rating,
@@ -538,6 +537,11 @@ export default {
       	"personality": this.personality,
       	"tags": this.tags,
       	"locations": this.locations
+      }
+      if (prefer_vlog == false) {
+        data["prefer_topical"] = true
+      } else if (prefer_vlog == true) {
+        data["prefer_vlog"] = true
       }
       console.log(JSON.stringify(data))
       var settings = {

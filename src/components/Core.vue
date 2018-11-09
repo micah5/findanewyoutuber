@@ -233,7 +233,7 @@
                 </v-layout>
                 <v-layout column class="mt-5">
                   <h3 class="ml-3">
-                    <span class="boxy">how important is video editing to you? ⤵</span>
+                    <span class="boxy">how important is video editing/ Cinematography to you? ⤵</span>
                   </h3>
                   <v-rating
                     v-model="rating"
@@ -532,6 +532,9 @@ export default {
       	"prefer_vlog": this.prefer_vlog,
       	"prefer_kids": this.prefer_kids,
       	"prefer_relationship": this.prefer_relationship,
+      	"videography": this.rating,
+      	"storytelling": this.personality,
+      	"personality": this.personality,
       	"tags": this.tags,
       	"locations": this.locations
       }
@@ -539,7 +542,7 @@ export default {
       var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "https://findanewvlogger.herokuapp.com/search",
+        "url": "http://localhost:5000/search",
         "method": "POST",
         "headers": {
           "Content-Type": "application/json",

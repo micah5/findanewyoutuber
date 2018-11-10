@@ -66,7 +66,12 @@
           <span class="headline">{{data.name}}</span><span>
           <v-btn dark color="orange" small class="mt-0 mb-3" style="border-width: 0px; height: 25px;" @click="openReddit()">
             <i class="fab fa-reddit-alien"></i> &nbsp; u/{{data.reddit_username}}
+          </v-btn></span><span>
+          <v-btn dark color="red" small class="mt-0 ml-0 mb-3" style="border-width: 0px; height: 25px;" @click="openYoutube()">
+            <i class="fab fa-youtube"></i> &nbsp; {{data.name}}
           </v-btn></span>
+          <!--<div class="g-ytsubscribe" data-channelid="UCmCPgOrC1GAtRL3YJSm1JGQ" data-layout="default" data-theme="dark" data-count="default"></div>-->
+          <!--<div class="g-ytsubscribe" :data-channel="data.id" data-layout="default" data-count="default"></div>-->
           <div v-if="Array.isArray(data.demographics) == true">
             <div class="black--text font-weight-light" v-for="demographic in data.demographics">
               <v-icon color="black" left small>accessibility_new</v-icon>
@@ -146,7 +151,6 @@
             ></v-rating>
           </v-layout>
         </v-layout>
-        <div class="g-ytsubscribe" :data-channel="data.id" data-layout="default" data-count="default"></div>
       </v-card-title>
       <div class="grey--text font-weight-light ml-3 mr-3 mb-2" style="text-align: left;">
         {{description}}<span @click="show_all_description = !show_all_description">&nbsp;<u>{{show_all_description ? 'less' : 'more'}}</u></span></div>
@@ -301,6 +305,9 @@ export default {
       },
       openReddit: function() {
         window.open('http://www.reddit.com/u/' + this.data.reddit_username)
+      },
+      openYoutube: function() {
+        window.open('http://www.youtube.com/channel/' + this.data.id)
       },
       copy () {
         const markup = this.$refs.link

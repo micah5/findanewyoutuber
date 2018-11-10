@@ -326,6 +326,14 @@
                         <v-btn color="black" dark block @click="addTag">submit</v-btn>
                       </v-card>
                     </v-menu>
+                    <p class="black--text mb-0 mt-3">add suggestions</p>
+                    <v-btn
+                      dark
+                      v-for="type in preassigned_tags"
+                      @click="addTags(type.tags)"
+                      >
+                      {{type.name}}
+                    </v-btn>
                   </v-item-group>
                 </v-layout>
                 <div id="element"></div>
@@ -334,7 +342,7 @@
                   :disabled="searching"
                   style="background-color: #77F8EA !important;"
                   color="#77F8EA"
-                  class="mt-3"
+                  class="mt-5"
                   @click.native="search"
                 >
                   Search
@@ -425,7 +433,86 @@ export default {
       prefer_vlog: null,
       personality: 3,
       tags: [],
-      input_tag: null
+      input_tag: null,
+      preassigned_tags: [
+        {
+          name: 'travel',
+          tags: [
+            'travel',
+            'flying',
+            'cruise',
+            'shopping',
+            'tour',
+            'africa',
+            'asia',
+            'europe',
+            'america',
+            'oceania'
+          ]
+        },
+        {
+          name: 'beauty',
+          tags: [
+            'makeup',
+            'beauty',
+            'skincare',
+            'clothing',
+            'try on haul',
+            'lashes',
+            'style',
+            'outfit',
+            'michelle phan',
+            'rachel levin',
+            'zoella'
+          ]
+        },
+        {
+          name: 'gaming',
+          tags: [
+            'gaming',
+            'game',
+            'playstation',
+            'nintendo',
+            'xbox',
+            'lets play',
+            'review',
+            'pewdiepie',
+            'markiplier'
+          ]
+        },
+        {
+          name: 'comedy',
+          tags: [
+            'comedy',
+            'skit',
+            'ryan higa',
+            'jenna marbles'
+          ]
+        },
+        {
+          name: 'tech',
+          tags: [
+            'technology',
+            'iphone',
+            'android',
+            'drone',
+            'photography',
+            'review',
+            'mkbhd',
+            'unbox therapy'
+          ]
+        },
+        {
+          name: 'lifestyle',
+          tags: [
+            'lifestyle',
+            'challenge',
+            'vlog',
+            'bethany mota',
+            'alisha mare'
+          ]
+        }
+      ]
     }
   },
   computed: {
@@ -489,6 +576,14 @@ export default {
       }
       this.input_tag = null
     },
+    addTags: function(tags) {
+      for (let tag of tags) {
+        var index = this.tags.indexOf(tag);
+        if (index == -1) {
+          this.tags.push(tag)
+        }
+      }
+    },
     niceness: function(value100) {
       var value = value100/100
       var speech = ` (${value100}% kind)`
@@ -538,9 +633,9 @@ export default {
       	"tags": this.tags,
       	"locations": this.locations
       }
-      if (prefer_vlog == false) {
+      if (this.prefer_vlog == false) {
         data["prefer_topical"] = true
-      } else if (prefer_vlog == true) {
+      } else if (this.prefer_vlog == true) {
         data["prefer_vlog"] = true
       }
       console.log(JSON.stringify(data))

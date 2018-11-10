@@ -2,13 +2,17 @@
     <div id="main">
         <img class="bg-img rellax" data-rellax-speed="-6" src="../assets/bg/layer5.png"></img>
         <img class="bg-img rellax" data-rellax-speed="-4" src="../assets/bg/layer4.png"></img>
-        <img class="bg-img rellax" data-rellax-speed="-2" src="../assets/bg/layer3.png"></img>
+        <img class="bg-img rellax" data-rellax-speed="-2" src="../assets/bg/layer3.png" style="opacity: 0.6;"></img>
         <!--<img class="bg-img rellax" style="margin-top:200vh" data-rellax-speed="-4" src="../assets/bg/layer2.png"></img>
         <img class="bg-img rellax" style="margin-top:300vh" data-rellax-speed="-1" src="../assets/bg/layer1.png"></img>-->
-        <div style="width: 100%; height: 600vh; position: absolute; background-image: linear-gradient(transparent, yellow, yellow, transparent);" class="rellax" data-rellax-speed="2"></div>
+        <div style="width: 100%; height: 600vh; position: absolute; background-image: linear-gradient(transparent, #FBC02D, yellow, #FBC02D, transparent);" class="rellax" data-rellax-speed="2"></div>
         <!--<div style="width: 100%; height: 300vh; position: absolute; margin-top: 750vh; background-image: linear-gradient(transparent, red, red, transparent);" class="rellax" data-rellax-speed="2"></div>-->
         <header>
-            <v-container>
+            <v-container><!-- Place this tag where you want the button to render. -->
+              <v-layout row style="position: absolute; right: 0; top: 0;" class="pa-3">
+                <a class="github-button" href="https://github.com/98mprice/findanewvlogger" data-icon="octicon-star" data-size="large" aria-label="Star 98mprice/findanewvlogger on GitHub">Star</a>
+                <!--<v-btn small href="https://gitlab.com/98mprice/findanewvlogger" class="ml-2 mt-0 mb-0 mr-0 pa-0" style='text-transform: capitalize; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;'><v-icon small left>fab fa-gitlab</v-icon> Star</v-btn>-->
+              </v-layout>
                 <h1><span class="boxy">find a new vlogger</span></h1>
                 <h3><span class="boxy" style="font-size: 0.8em;">personality based youtuber search <small>~ powered by reddit, ai & ❤</small></span></h3>
                 <h3 class="mt-5 white--text">what does your perfect youtuber look like?</h3>

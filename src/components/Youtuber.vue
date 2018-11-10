@@ -26,9 +26,23 @@
             <h1 class="ml-3 red--text">{{overall_user_rating}}<small>%</small></h1>
           </v-layout>
           <p class="grey--text" v-html="ratingDescription"></p>
-          <v-layout row justify-center style="width: 80%; margin-left: 10%;">
+          <v-layout row justify-center :style="$vuetify.breakpoint.xs ? 'width: 100%;' : 'width: 80%; margin-left: 10%;'">
             <!--<span class="black--text text--lighten-2 caption mt-1">quality</span>-->
-            <v-layout row justify-center v-for="(criteria, key, index) in user_rating">
+            <v-layout v-if="$vuetify.breakpoint.smAndUp" row justify-center v-for="(criteria, key, index) in user_rating">
+              <span class="black--text text--lighten-2 caption mt-1">
+                {{criteria.name}}
+              </span>
+              <v-rating
+                v-model="criteria.score"
+                background-color="black"
+                color="yellow accent-4"
+                dense
+                half-increments
+                hover
+                size="18"
+              ></v-rating>
+            </v-layout>
+            <v-layout v-if="$vuetify.breakpoint.xs" column justify-center v-for="(criteria, key, index) in user_rating">
               <span class="black--text text--lighten-2 caption mt-1">
                 {{criteria.name}}
               </span>
@@ -84,14 +98,13 @@
           </div>
         </div>
         <v-spacer></v-spacer>
-        <v-layout column text-xs-right v-if="data.avg_user_rating">
+        <v-layout column text-xs-right v-if="data.avg_user_rating" :style="$vuetify.breakpoint.smAndUp ? 'max-width: 27%;' : 'width: 100%'">
           <h1><small>user score&nbsp;</small>{{Math.round(data.avg_user_rating.overall)}}<small>%</small></h1>
-          <div style="display: flex;">
-            <span class="black--text text--lighten-2 caption mt-1" style="flex: 0 0 70%;">
+          <v-layout row>
+            <span class="black--text text--lighten-2 caption mt-1">
               videography
             </span>
-            <v-rating
-              style="flex: 1;"
+            <v-rating style="position: absolute; right: 0;"
               v-model="data.avg_user_rating.videography"
               background-color="grey"
               color="yellow accent-4"
@@ -101,13 +114,12 @@
               hover
               size="18"
             ></v-rating>
-          </div>
-          <div style="display: flex;">
-            <span class="black--text text--lighten-2 caption mt-1" style="flex: 0 0 70%;">
+          </v-layout>
+          <v-layout row>
+            <span class="black--text text--lighten-2 caption mt-1">
               personality
             </span>
-            <v-rating
-              style="flex: 1;"
+            <v-rating style="position: absolute; right: 0;"
               v-model="data.avg_user_rating.personality"
               background-color="grey"
               color="yellow accent-4"
@@ -117,13 +129,12 @@
               hover
               size="18"
             ></v-rating>
-          </div>
-          <div style="display: flex;">
-            <span class="black--text text--lighten-2 caption mt-1" style="flex: 0 0 70%;">
+          </v-layout>
+          <v-layout row>
+            <span class="black--text text--lighten-2 caption mt-1">
               storytelling/ content
             </span>
-            <v-rating
-              style="flex: 1;"
+            <v-rating style="position: absolute; right: 0;"
               v-model="data.avg_user_rating.storytelling"
               background-color="grey"
               color="yellow accent-4"
@@ -133,9 +144,9 @@
               hover
               size="18"
             ></v-rating>
-          </div>
+          </v-layout>
         </v-layout>
-        <!--<div class="g-ytsubscribe" :data-channel="data.id" data-layout="default" data-count="default"></div>-->
+        <div class="g-ytsubscribe" :data-channel="data.id" data-layout="default" data-count="default"></div>
       </v-card-title>
       <div class="grey--text font-weight-light ml-3 mr-3 mb-2" style="text-align: left;">
         {{description}}<span @click="show_all_description = !show_all_description">&nbsp;<u>{{show_all_description ? 'less' : 'more'}}</u></span></div>

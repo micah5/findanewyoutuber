@@ -13,8 +13,8 @@
     </v-btn>
     <v-btn dark v-if="found_countries.length > 10" @click="show_all = !show_all">{{show_all ? 'minimise' : 'show all'}}</v-btn>
     <div v-if="found_countries.length == 0">
-      <div class="white--text">
-        ...or don't and I'll search from the whole world)
+      <div class="black--text">
+        <small>...or don't and I'll search from the whole world)</small>
       </div>
       <v-btn color="white">everywhere 🌍</v-btn>
     </div>

@@ -70,4 +70,72 @@ export default {
   background: url('../assets/icons/no_baby.png');
   background-size: 100%;
 }
+.animation {
+  background: url('../assets/icons/animation.png');
+  background-size: 100%;
+}
+.documentary {
+  background: url('../assets/icons/documentary.png');
+  background-size: 100%;
+}
+.drama {
+  background: url('../assets/icons/drama.png');
+  background-size: 100%;
+}
+.fashion {
+  background: url('../assets/icons/fashion.png');
+  background-size: 100%;
+}
+.gaming {
+  background: url('../assets/icons/gaming.png');
+  background-size: 100%;
+}
+.music {
+  background: url('../assets/icons/music.png');
+  background-size: 100%;
+}
+.news {
+  background: url('../assets/icons/news.png');
+  background-size: 100%;
+}
+.pets {
+  background: url('../assets/icons/pets.png');
+  background-size: 100%;
+}
+.podcast {
+  background: url('../assets/icons/podcast.png');
+  background-size: 100%;
+}
+.sports {
+  background: url('../assets/icons/sports.png');
+  background-size: 100%;
+}
+.travel {
+  background: url('../assets/icons/travel.png');
+  background-size: 100%;
+}
+.vlog {
+  background: url('../assets/icons/vlog.png');
+  background-size: 100%;
+}
+.critical {
+  background: url('../assets/icons/critical.png');
+  background-size: 100%;
+}
+.fun {
+  background: url('../assets/icons/fun.png');
+  background-size: 100%;
+}
+.nonchelant {
+  background: url('../assets/icons/nonchelant.png');
+  background-size: 100%;
+}
+.angry {
+  background: url('../assets/icons/angry.png');
+  background-size: 100%;
+}
+.crazy {
+  background: url('../assets/icons/crazy.png');
+  background-size: 100%;
+}
 </style>

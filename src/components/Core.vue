@@ -8,15 +8,42 @@
         <div style="width: 100%; height: 600vh; position: absolute; background-image: linear-gradient(transparent, #FBC02D, yellow, #FBC02D, transparent);" class="rellax" data-rellax-speed="2"></div>
         <!--<div style="width: 100%; height: 300vh; position: absolute; margin-top: 750vh; background-image: linear-gradient(transparent, red, red, transparent);" class="rellax" data-rellax-speed="2"></div>-->
         <header>
+        <div class="black--text" style="position: absolute; margin-top: 89vh; width: 100%;">
+          <h4>
+            <span class="boxy">if you'd like suggestions for things to search, scroll below ⤵</span>
+          </h4>
+        </div>
             <v-container><!-- Place this tag where you want the button to render. -->
               <v-layout row style="position: absolute; right: 0; top: 0;" class="pa-3">
                 <a class="github-button" href="https://github.com/98mprice/findanewvlogger" data-icon="octicon-star" data-size="large" aria-label="Star 98mprice/findanewvlogger on GitHub">Star</a>
                 <!--<v-btn small href="https://gitlab.com/98mprice/findanewvlogger" class="ml-2 mt-0 mb-0 mr-0 pa-0" style='text-transform: capitalize; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;'><v-icon small left>fab fa-gitlab</v-icon> Star</v-btn>-->
               </v-layout>
-                <h1><span class="boxy">find a new vlogger</span></h1>
+                <h1><span class="boxy">find a new youtuber</span></h1>
                 <h3><span class="boxy" style="font-size: 0.8em;">personality based youtuber search <small>~ powered by reddit, ai & ❤</small></span></h3>
-                <h3 class="mt-5 white--text">what does your perfect youtuber look like?</h3>
-                <v-layout row wrap class="mt-5">
+                <h3 class="mb-0 white--text" style="margin-top: 20vh;">what does your perfect youtuber look like?</h3>
+                <h3 class="mt-0 white--text"><small>you can search a combination for things, people, age ranges, genders, personality types etc.</small></h3>
+                <v-layout column>
+                  <v-text-field class="test_input"
+                    v-model="input_tag"
+                    @keyup.enter.native="addTag"
+                    label="e.g. gaming, fashion, college, japan, casey neistat, female, 20 years old, fun, outgoing etc"
+                    solo
+                  ></v-text-field>
+                  <v-layout row wrap align-center>
+                    <v-slide-y-transition>
+                      <v-flex class="text-xs-center">
+                        <v-btn
+                          color="white"
+                          v-for="tag in tags"
+                          @click="removeTag(tag)"
+                          >
+                          {{tag}}<small><v-icon>close</v-icon></small>
+                        </v-btn>
+                      </v-flex>
+                    </v-slide-y-transition>
+                  </v-layout>
+                </v-layout>
+                <v-layout row wrap style="margin-top: 50vh">
                   <v-flex
                     xs12 sm3 offset-sm2
                   >
@@ -299,47 +326,6 @@
                     </span>
                   </div>
                 </v-layout>
-                <v-layout column class="mt-5">
-                  <v-item-group multiple>
-                    <h3 class="ml-3 black--text">
-                      <span class="boxy">tags</span> i.e. stuff you like
-                    </h3>
-                    <p class='black--text mb-0'>add games, movies, activities, other youtubers etc</p>
-                    <p class='black--text mb-2'>the algorithm searches all videos on a persons channel for corrsponding tags</p>
-                    <v-btn
-                      color="white"
-                      v-for="tag in tags"
-                      @click="removeTag(tag)"
-                      >
-                      {{tag}}<small><v-icon>close</v-icon></small>
-                    </v-btn>
-                    <v-menu
-                      v-model="menu"
-                      :close-on-content-click="false"
-                      :nudge-width="200"
-                      offset-x
-                    >
-                      <v-btn slot="activator" color="white"><v-icon left>add</v-icon>add tag</v-btn>
-                      <v-card class="pa-3">
-                        <v-text-field
-                          v-model="input_tag"
-                          color="black"
-                          placeholder="tag name"
-                          outline
-                        ></v-text-field>
-                        <v-btn color="black" dark block @click="addTag">submit</v-btn>
-                      </v-card>
-                    </v-menu>
-                    <p class="black--text mb-0 mt-3">add suggestions</p>
-                    <v-btn
-                      dark
-                      v-for="type in preassigned_tags"
-                      @click="addTags(type.tags)"
-                      >
-                      {{type.name}}
-                    </v-btn>
-                  </v-item-group>
-                </v-layout>
                 <div id="element"></div>
                 <v-btn
                   :loading="searching"
@@ -573,10 +559,12 @@ export default {
       }
     },
     addTag: function() {
-      var tag = this.input_tag.toLowerCase()
-      var index = this.tags.indexOf(tag);
-      if (index == -1) {
-        this.tags.push(tag)
+      var tags = this.input_tag.toLowerCase().split(',')
+      for (let tag of tags) {
+        var index = this.tags.indexOf(tag);
+        if (index == -1) {
+          this.tags.push(tag)
+        }
       }
       this.input_tag = null
     },
@@ -742,15 +730,17 @@ h1 {
 }
 
 h1>.boxy {
-  border-style: solid;
-  border-width: 4px 4px 0 4px; /* No border at the bottom */
   box-shadow: -10px -10px;
 }
 
 h3>.boxy {
+  box-shadow: -10px -10px;
+}
+
+h4>.boxy {
   border-style: solid;
   border-width: 4px;
-  box-shadow: -10px -10px;
+  box-shadow: 10px 10px;
 }
 
 .boxy {
@@ -769,6 +759,14 @@ button {
 }
 button:hover {
   box-shadow: 0px 0px !important;
+}
+.v-text-field--solo .v-input__slot {
+  box-shadow: 10px 10px rgba(255, 255, 255, 0.5) !important;
+  transition: .3s cubic-bezier(.25,.8,.5,1) !important;
+  text-transform: lowercase !important;
+}
+.v-input__slot:hover {
+  box-shadow: 0px 0px rgba(255, 255, 255, 0.5) !important;
 }
 .bg-img {
   position: absolute;

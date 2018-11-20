@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@mdi/js": "^3.0.39",
+    "blur-js": "^1.0.0",
     "chart.js": "^2.5.0",
+    "frosted-glass": "^0.3.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "marked": "^0.3.6",
@@ -19,6 +21,7 @@
     "progressbar.js": "^1.0.1",
     "rellax": "^1.7.1",
     "sass-loader": "^5.0.0",
+    "v-blur": "^1.0.2",
     "vue": "^2.1.10",
     "vue-material-design-icons": "^2.3.0",
     "vue-resource": "^1.2.0",

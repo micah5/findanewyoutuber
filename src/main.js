@@ -7,6 +7,11 @@ import 'babel-polyfill';
 
 Vue.use(VueResource)
 
+Vue.config.ignoredElements = [
+  'frosted-glass',
+  'frosted-glass-container'
+]
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

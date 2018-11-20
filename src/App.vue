@@ -1,13 +1,13 @@
 <template>
     <div id="app">
       <v-app>
-        <core></core>
+          <core2></core2>
       </v-app>
     </div>
 </template>
 
 <script>
-import Core from 'components/Core'
+import Core2 from 'components/Core2'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import VueScrollTo from'vue-scrollto'
@@ -34,7 +34,7 @@ Vue.use(VueScrollTo, {
 export default {
   name: 'app',
   components: {
-      Core
+      Core2
   }
 }
 </script>
